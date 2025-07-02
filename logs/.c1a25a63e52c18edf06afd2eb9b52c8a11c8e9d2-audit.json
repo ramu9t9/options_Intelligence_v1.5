@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 3
+    },
+    "auditLog": "/home/runner/workspace/logs/.c1a25a63e52c18edf06afd2eb9b52c8a11c8e9d2-audit.json",
+    "files": [
+        {
+            "date": 1751489850600,
+            "name": "/home/runner/workspace/logs/market-data-2025-07-02.log",
+            "hash": "9e536f4c3a670a4a2182ca952ea70c46df5345c954dfcce732cce330e44386a0"
+        }
+    ],
+    "hashType": "sha256"
+}
