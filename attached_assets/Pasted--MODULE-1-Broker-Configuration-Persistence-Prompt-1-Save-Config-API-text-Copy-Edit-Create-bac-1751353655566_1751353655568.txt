@@ -1,0 +1,138 @@
+🔧 MODULE 1: Broker Configuration Persistence
+📌 Prompt 1: Save Config API
+text
+Copy
+Edit
+Create backend route: POST /api/broker/save-config
+
+Requirements:
+- Input: JSON with broker config (clientId, apiKey, apiSecret, pin, totpKey)
+- Encrypt sensitive fields using AES or crypto module
+- Save in MongoDB (or your DB) under collection `broker_configs` keyed by broker name
+- If exists, update. Else, insert new record.
+- Return: { success: true }
+📌 Prompt 2: Fetch Config API
+text
+Copy
+Edit
+Create backend route: GET /api/broker/get-config?broker=AngelOne
+
+Requirements:
+- Fetch latest saved config from DB
+- Decrypt secret fields before returning
+- Return shape:
+  {
+    clientId: "...",
+    apiKey: "...",
+    apiSecret: "...",
+    pin: "...",
+    totpKey: "..."
+  }
+📌 Prompt 3: Frontend Auto-Fill on Load
+text
+Copy
+Edit
+In BrokerConfigForm.tsx:
+- On component mount:
+  - Fetch /api/broker/get-config?broker=AngelOne
+  - If found, populate all input fields
+🔄 MODULE 2: Feed Controller (Backend)
+📌 Prompt 4: Feed Manager Service
+text
+Copy
+Edit
+Create a brokerFeedManager.js module with:
+
+Functions:
+- startFeed(brokerName)
+  - Use config from DB
+  - Connect to WebSocket (Angel One / Dhan)
+  - Subscribe to selected instruments (e.g., NIFTY, BANKNIFTY)
+  - Track update timestamps
+  - Every 5s: Write status to Redis under key feed_status:{broker}
+
+- stopFeed(brokerName)
+  - Gracefully disconnect socket
+  - Clear Redis status
+
+Export both functions for API triggers
+📌 Prompt 5: Feed Status API
+text
+Copy
+Edit
+Create backend route: GET /api/broker/feed-status?broker=AngelOne
+
+- Check Redis for key feed_status:AngelOne
+- Return:
+  {
+    status: "active",
+    instruments: 3,
+    updatesPerSec: 11,
+    uptime: "2m"
+  }
+🌐 MODULE 3: Frontend Feed Control Integration
+📌 Prompt 6: Activate/Deactivate Buttons
+text
+Copy
+Edit
+In BrokerAdminDashboard.tsx:
+- On Activate button click:
+  → POST /api/broker/start-feed { broker: "AngelOne" }
+
+- On Deactivate button click:
+  → POST /api/broker/stop-feed { broker: "AngelOne" }
+
+- After either, re-fetch /api/broker/feed-status
+📌 Prompt 7: Live Status Polling
+text
+Copy
+Edit
+In BrokerAdminDashboard.tsx:
+- Every 5 seconds, call:
+  → GET /api/broker/feed-status?broker=AngelOne
+
+- Update status section:
+  - Green ✅ if active
+  - Red ⚠ if no feed
+  - Show metrics: Instruments, Updates/sec, Uptime
+📈 MODULE 4: Real-Time Market Cards
+📌 Prompt 8: Price Display Hook
+text
+Copy
+Edit
+Create useLiveMarketPrice.ts hook:
+- Connect to WebSocket or Redis pub/sub channel
+- Subscribe to symbols: ["NIFTY", "BANKNIFTY"]
+- On update, update local state
+
+Return:
+{ NIFTY: 23451.5, BANKNIFTY: 48930.1 }
+📌 Prompt 9: Show in MarketCards
+text
+Copy
+Edit
+In MarketCards.tsx:
+- Use `useLiveMarketPrice()`
+- Display live prices with ₹ symbol
+- If no feed: show gray ₹0.00
+- If loading: show skeleton or loader
+✅ Optional Extras (Advanced)
+🔁 Prompt 10: Auto Retry Feed
+text
+Copy
+Edit
+In brokerFeedManager.js:
+- Add retry logic:
+  - On WebSocket error or disconnect, wait 5s
+  - Auto-reconnect up to 3 times
+  - Log errors and push to Redis: feed_errors:{broker}
+🔔 Prompt 11: Frontend Toast on Feed Error
+text
+Copy
+Edit
+In BrokerAdminDashboard.tsx:
+- If feed status API includes { error: true }
+- Show toast: “Live Feed for Angel One failed to connect”
+- Retry manually or suggest config check
+🧠 Final Notes to Include for Replit:
+“Please make sure all sensitive values like secrets, TOTP, and PIN are encrypted before storage and decrypted on use. WebSocket disconnects must gracefully clear Redis state and retry logic should not spam broker APIs.”

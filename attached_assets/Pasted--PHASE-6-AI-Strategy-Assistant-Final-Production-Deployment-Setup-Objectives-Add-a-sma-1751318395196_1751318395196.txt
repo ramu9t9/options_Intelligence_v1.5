@@ -1,0 +1,152 @@
+✅ PHASE 6: AI Strategy Assistant + Final Production Deployment Setup
+
+⸻
+
+🔧 Objectives:
+	•	Add a smart AI assistant to recommend strategies based on live market conditions and user history
+	•	Create personalization and feedback loops
+	•	Finalize cloud production deployment architecture (once testing is complete)
+
+⸻
+
+🧩 Key Features to Implement:
+	1.	LLM-Powered Strategy Assistant
+	2.	User Personalization Layer (Behavior, History, Feedback)
+	3.	Final Production Deployment Setup
+	4.	Security Audits & Final Testing Checklists
+
+⸻
+
+1️⃣ LLM-POWERED STRATEGY ASSISTANT
+
+🔍 What to Do:
+	•	Use historical data + user profile + market snapshot → feed into LLM
+	•	Get: “Suggest a strategy for NIFTY with high OI buildup and falling PCR”
+	•	Return multiple suggestions with explanation, risk profile, and action tags
+
+🧠 Replit Prompt:
+Add Strategy Assistant using LLM:
+- Backend:
+  - Create `/api/ai/suggest-strategy`
+  - Input:
+    {
+      symbol: "NIFTY",
+      expiry: "2025-07-04",
+      user_id: "abc123",
+      snapshot_time: "2025-06-30T11:30"
+    }
+  - Load latest option chain snapshot + OI/PCR trend
+  - Query OpenAI API (or local LLM via Ollama) with structured prompt:
+    "Suggest 3 trading strategies for NIFTY. Market trend: Bearish. OI Rising, PCR Falling..."
+  - Return: Strategy name, logic, action type (BUY CE, SELL PE), risk level
+
+- Frontend:
+  - Add `AiStrategyAssistant.tsx`
+  - Button: “Get Strategy Ideas”
+  - Render output with explanations in cards
+✅ Expected Output:
+	•	AI returns usable strategies with logic + tags
+	•	Suggestions visible under “AI Insights” section
+
+⸻
+
+2️⃣ USER PERSONALIZATION LAYER
+
+🔍 What to Do:
+	•	Record:
+	•	Strategy usage frequency
+	•	Alerts triggered
+	•	Instruments followed
+	•	Use that to:
+	•	Pre-fill AI queries
+	•	Highlight saved patterns
+	•	Rank most used reports
+
+🧠 Replit Prompt:
+Build personalization system:
+- Create `user_preferences`, `user_sessions`, `feature_usage` tables
+- Log:
+  - strategy_id run count
+  - instrument view history
+  - report view count
+- Add `/api/user/preferences` and `/ai/personal-context` endpoint
+- On assistant query, include user context summary
+✅ Expected Output:
+	•	AI assistant gets user-specific queries
+	•	Platform highlights “Your Most Used Reports” and “Recently Triggered Alerts”
+
+⸻
+
+3️⃣ FINAL PRODUCTION DEPLOYMENT ARCHITECTURE
+
+🔍 What to Do:
+	•	Build hardened production image with:
+	•	Health checks
+	•	Node clustering
+	•	Horizontal scaling options
+	•	Choose final deployment host:
+	•	🟢 Fly.io — Global CDN + Edge + Redis
+	•	🟢 AWS ECS or Fargate — Full infra control
+	•	🟢 Railway or Render — Easy launch + monitoring
+
+🧠 Replit Prompt:
+Build cloud-ready container:
+- Docker:
+  - Multi-stage build
+  - Static files served from NGINX
+  - API with PM2 process manager
+- Add `Dockerfile.prod`, `docker-compose.prod.yml`
+- Include health checks: `/api/health`, `/api/metrics`
+
+Choose cloud platform:
+- Setup Redis, PostgreSQL as managed services
+- Set secrets via secret manager or env injection
+- Enable HTTPS, TLS termination
+✅ Expected Output:
+	•	Fully cloud-hostable containers with secure configs
+	•	Easy deployment to cloud via CLI or CI/CD
+
+⸻
+
+4️⃣ SECURITY AUDITS & FINAL TESTING
+
+🔍 What to Do:
+	•	Scan for:
+	•	Open CORS
+	•	SQL injection risks
+	•	Missing HTTPS on API
+	•	JWT validation + expiry
+	•	Finalize E2E tests with:
+	•	Login → Strategy → Backtest → Alert setup → AI Suggestion
+
+🧠 Replit Prompt:
+Run security audit:
+- Use `npm audit fix` for dependencies
+- Scan all Express endpoints:
+  - Validate JWT token
+  - Sanitize query params
+  - Enforce rate limiting (prod config)
+
+Finalize testing:
+- Create final Cypress suite:
+  - User signup → strategy creation → backtest → AI usage
+- Ensure 100% critical path test pass
+✅ Expected Output:
+	•	Secure, protected APIs
+	•	Final test suite passes all major workflows
+
+⸻
+
+📂 Final Deliverables for Phase 6
+Feature
+Description
+✅ AI Strategy Assistant
+LLM-powered trading ideas
+✅ Personalization Engine
+Context-aware user flow
+✅ Cloud Deployment Architecture
+Production-ready Docker + Compose
+✅ Security Hardening
+JWT, HTTPS, sanitization, audits
+✅ Final Test Suite
+Automated E2E coverage for user flows

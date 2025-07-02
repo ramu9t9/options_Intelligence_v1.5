@@ -1,0 +1,74 @@
+Here’s a side-by-side comparison of your **current implementation** vs. the **recommended plan**, followed by specific tweaks you can make to bring your system fully in line with best practices:
+
+---
+
+## 1. Data Ingestion & Scheduling
+
+| Aspect                   | Current                                                                | Recommended                                                                    | Change Needed?                                                         |
+| ------------------------ | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ---------------------------------------------------------------------- |
+| **Real-Time Fetch**      | Every 5 s via Angel One → Dhan → NSE → Yahoo → Mock → DB               | Websocket (or 15–30 s REST poll) → Redis → `intraday_option_oi`                | ✔ Align polling cadence; insert into Redis                             |
+| **Historical Snapshots** | Every 15 min into `historical_market_data` & `historical_option_chain` | End-of-day EOD job (after 3:30 PM) → raw archive + upsert to `daily_option_oi` | ✔ Keep 15 min for intraday, add dedicated EOD snapshot and raw archive |
+| **EOD Processing**       | At 3:45 PM, final OI snapshot + validation                             | Same timing; upsert into `daily_option_oi`, trigger reconciliation job         | ✔ Create raw file archive and recon job                                |
+| **Manual Refresh**       | Not yet implemented                                                    | Expose `/api/refresh-data` calling existing fetch logic                        | ✔ Add refresh endpoint & React button                                  |
+
+---
+
+## 2. Database Tables
+
+| Purpose                      | Current Table(s)                     | Recommended Table(s)               | Action                                                     |
+| ---------------------------- | ------------------------------------ | ---------------------------------- | ---------------------------------------------------------- |
+| **Raw Data Archive**         | (none)                               | S3/GCS `raw/yyyy-mm-dd/oi.json`    | ➕ Introduce object storage for raw files                   |
+| **Historical EOD OI**        | `historical_option_chain`            | `daily_option_oi`                  | 🔄 Migrate EOD upserts into new table                      |
+| **Intraday Snapshot**        | `realtime_data_snapshots`            | `intraday_option_oi` + Redis cache | 🔄 Split live OI vs. price into structured table and cache |
+| **Delta Logging**            | (none)                               | `oi_delta_log`                     | ➕ Add table to record `(old_oi, new_oi, Δ)`                |
+| **Price Ticks**              | `historical_market_data` (1MIN–1DAY) | `price_data`                       | 🔄 For intraday price, use dedicated tick table            |
+| **Support/Resistance Zones** | (none)                               | `support_res_levels`               | ➕ Pre-compute or store user S/R zones                      |
+| **Provider Metrics**         | `data_source_metrics`                | (keep for fallback/tracking)       | ✅ Good as-is                                               |
+| **Credentials**              | `broker_credentials`                 | (keep)                             | ✅ Good as-is                                               |
+
+---
+
+## 3. Real-Time Flow & Consistency
+
+1. **Redis Caching:**
+
+   * ▶️ **Action:** On each fetch (5 s or on manual refresh), write latest OI into both `intraday_option_oi` **and** a Redis hash (e.g. `OI:NIFTY:18000:CE`) for ultra-fast reads by your scanner.
+
+2. **Upserts & Delta Logging:**
+
+   * ▶️ **Action:** Change your insert logic into `intraday_option_oi` to use `ON DUPLICATE KEY UPDATE`, then compute `delta = new_oi – old_oi` and write a row into `oi_delta_log`.
+
+3. **Reconciliation Job:**
+
+   * ▶️ **Action:** After EOD upsert, run an automated comparison of your `daily_option_oi` vs. the provider’s bhavcopy and alert on discrepancies.
+
+---
+
+## 4. Manual “Refresh Data” Feature (Short-Term)
+
+* **Front-end:**
+
+  * Add a **Refresh Data** button (as shown previously) that calls `POST /api/refresh-data`.
+* **Back-end:**
+
+  * Reuse your multi-provider fetch logic in a single function and expose it via the refresh endpoint.
+* **Integration:**
+
+  * Proxy/CORS setup so your React UI can hit it without cross-origin issues.
+
+Once you have your **cloud scheduler** (CronJob or ECS Scheduled Task) pulling every 15–30 s (intraday) and a nightly EOD job, you can **retire** the manual button.
+
+---
+
+## 5. Overall Assessment
+
+* **Good Foundations:** Your multi-provider fallback, table structure for real-time & historical snapshots, and WebSocket layer are solid.
+* **Next Steps:**
+
+  1. **Add the missing tables** (`oi_delta_log`, `intraday_option_oi` if you want to separate OI from price snapshots, and `support_res_levels`).
+  2. **Implement Redis caching** for sub-second scans.
+  3. **Archive raw payloads** daily.
+  4. **Expose manual refresh** now, then phase it out once the automated fetchers are live.
+  5. **Automate reconciliation** post-EOD to guarantee data accuracy.
+
+Aligning these pieces will ensure your platform smoothly transitions from a local/manual setup to a fully automated, cloud-native pipeline—while giving you the on-demand control you need right now.

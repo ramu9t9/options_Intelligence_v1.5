@@ -1,0 +1,112 @@
+Find the missing requirements from phase 5:
+2️⃣ ADVANCED ALERT ENGINE (Priority-Based Evaluation)
+
+🔍 What to Do:
+	•	Alerts should support:
+	•	Different priorities (HIGH = 10s, LOW = 5min checks)
+	•	Logical groups (All OI rules AND price rules)
+	•	Support multiple channels (email, webhook now; push later)
+
+🧠 Replit Prompt:
+Enhance alert engine:
+- Add `priority` to `user_alerts`: 'HIGH', 'MEDIUM', 'LOW'
+- HIGH → check every 10s, MEDIUM → 1min, LOW → 5min
+- Queue alerts via BullMQ
+- Evaluate rules with logical AND/OR groups
+- Create retry mechanism for failed sends
+- Log alert evaluations in `alert_execution_log` table
+✅ Expected Output:
+	•	Dynamic alert scheduler by priority
+	•	Alerts logged with sent_status, delivery_channel
+
+⸻
+
+3️⃣ ADMIN DASHBOARD & SYSTEM METRICS
+
+🔍 What to Do:
+	•	Central place to view:
+	•	Top strategies used
+	•	Alerts triggered
+	•	Data source uptime
+	•	Redis + DB health
+	•	Logged-in user activity
+
+🧠 Replit Prompt
+Create Admin Dashboard:
+- API: `/api/admin/metrics`
+- Metrics:
+  - Most-used strategies (from strategy_results)
+  - Alerts by user
+  - Data source uptime (from data_source_metrics)
+  - Redis/DB status (ping test)
+- Frontend:
+  - `AdminDashboard.tsx`
+  - Charts (Bar, Line) using Recharts/Chart.js
+
+✅ Expected Output:
+	•	Metrics panel for system admins
+	•	API uptime and top usage charts
+
+⸻
+
+4️⃣ USER-FACING REPORTS (Dynamic Scanner Outputs)
+
+🔍 What to Do:
+	•	Allow users to:
+	•	View “Top OI Gainers”, “PCR Dips”, “Max Pain Levels”
+	•	Filter by expiry date, sector, or strike range
+
+🧠 Replit Prompt:
+Create Reports module:
+- API: `/api/reports/top-oi-gainers`, `/top-pcr-drops`
+- Use `intraday_option_oi` and `option_data`
+- Return top 10 results with symbol, strike, change %, underlying price
+- UI: `ReportsPage.tsx` with report dropdown + filter panel
+Create Reports module:
+- API: `/api/reports/top-oi-gainers`, `/top-pcr-drops`
+- Use `intraday_option_oi` and `option_data`
+- Return top 10 results with symbol, strike, change %, underlying price
+- UI: `ReportsPage.tsx` with report dropdown + filter panel
+
+✅ Expected Output:
+	•	Dynamic scanner UI with Top X reports
+	•	Exportable as CSV
+
+⸻
+
+5️⃣ DATA INTEGRITY & MAINTENANCE TOOLS
+
+🔍 What to Do:
+	•	Admins should:
+	•	Re-run failed snapshot jobs
+	•	Delete corrupted OI records
+	•	View data ingestion health
+
+🧠 Replit Prompt:
+Add admin-only data tools:
+- Re-ingest missing data from timestamp via `/api/admin/reingest`
+- Delete bad rows by ID (protected route)
+- Add Redis + DB usage summary endpoints
+- Add `/api/admin/health` endpoint with:
+  - job queue size
+  - Redis memory
+  - DB connection pool stats
+✅ Expected Output:
+	•	Data repair tools accessible from Admin UI
+	•	Health dashboard visible
+
+⸻
+
+📂 Final Deliverables for Phase 5
+Feature
+Description
+✅ Backtest Engine
+Strategy vs. historical market replay
+✅ Priority-Based Alerts
+Evaluated by urgency, logged, retry-safe
+✅ Admin Dashboard
+Analytics, usage, error rates, system health
+✅ Market Reports
+OI, PCR, Max Pain, etc. with filters
+✅ Data Integrity Tools
+Admin functions to fix/reprocess ingestion jobs

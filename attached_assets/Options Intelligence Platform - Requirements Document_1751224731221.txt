@@ -1,0 +1,480 @@
+# Options Intelligence Platform - Requirements Document
+
+## 1. Introduction
+
+### 1.1 Purpose
+This document outlines the comprehensive requirements for the Options Intelligence Platform, a sophisticated real-time analysis tool for options trading that provides advanced pattern detection, market insights, and data visualization without requiring user authentication.
+
+### 1.2 Scope
+The platform will provide real-time options data analysis for equity indices and commodities, with a focus on the Indian markets (NIFTY, BANKNIFTY, etc.). It will include pattern detection, visualization tools, and a centralized data feed architecture.
+
+### 1.3 Definitions
+- **OI**: Open Interest - the total number of outstanding contracts
+- **PCR**: Put-Call Ratio - a sentiment indicator
+- **ATM**: At-the-Money - options with strike price near the current market price
+- **API**: Application Programming Interface
+- **WebSocket**: Protocol for two-way real-time communication
+
+## 2. System Overview
+
+### 2.1 System Architecture
+The system follows a modern web application architecture with:
+- React frontend with TypeScript
+- Node.js backend with Express
+- MySQL database with SQLite fallback
+- WebSocket communication for real-time updates
+- Centralized data feed with multiple provider support
+
+### 2.2 User Characteristics
+The platform is designed for:
+- Options traders (retail and professional)
+- Market analysts
+- Financial institutions
+- Trading educators and students
+
+### 2.3 Constraints
+- Must work without user authentication
+- Must handle market data provider outages gracefully
+- Must support high concurrent user loads
+- Must maintain data accuracy and timeliness
+
+## 3. Functional Requirements
+
+### 3.1 Real-time Market Data
+
+#### 3.1.1 Option Chain Display
+- Display comprehensive option chain data for selected instruments
+- Show strike price, call/put OI, OI change, LTP, LTP change, and volume
+- Highlight ATM strikes and significant patterns
+- Allow sorting by different columns (strike, OI, etc.)
+
+#### 3.1.2 Data Provider Integration
+- Primary integration with Angel One API
+- Fallback to NSE, Yahoo Finance, and mock data
+- Automatic switching between providers on failure
+- Configurable update intervals (default: 5 seconds)
+
+#### 3.1.3 Market Summary
+- Display underlying price and change
+- Show PCR (Put-Call Ratio)
+- Display bullish/bearish signal counts
+- Show market status (open/closed)
+
+### 3.2 Pattern Detection
+
+#### 3.2.1 Basic Patterns
+- Call Long Buildup (Bullish)
+- Put Long Buildup (Bearish)
+- Call Short Covering (Bullish)
+- Put Short Covering (Bearish)
+
+#### 3.2.2 Advanced Patterns
+- Gamma Squeeze
+- Volatility Spike
+- Unusual Activity
+- Support/Resistance Levels
+- Momentum Shifts
+- Max Pain Analysis
+
+#### 3.2.3 Multi-timeframe Analysis
+- 1-minute patterns
+- 5-minute patterns
+- 15-minute patterns
+- 1-hour patterns
+- Daily patterns
+
+#### 3.2.4 Pattern Visualization
+- Display detected patterns with confidence scores
+- Show pattern strength indicators
+- Provide detailed pattern descriptions
+- Allow filtering by pattern type, direction, and timeframe
+
+### 3.3 Data Visualization
+
+#### 3.3.1 Charts
+- OI trend charts for calls and puts
+- Price movement charts
+- PCR trend visualization
+- Volume analysis charts
+
+#### 3.3.2 Heatmaps and Visual Indicators
+- OI concentration heatmap
+- Color-coded pattern indicators
+- Strike-wise sentiment visualization
+- Volatility smile visualization
+
+### 3.4 Setup and Configuration
+
+#### 3.4.1 Provider Setup Wizard
+- Step-by-step guide for custom provider setup
+- Provider selection interface
+- Credential entry and validation
+- Connection testing
+- Configuration options
+
+#### 3.4.2 System Configuration
+- Update interval settings
+- Fallback provider configuration
+- Display preferences
+- Theme selection
+
+### 3.5 Admin Features
+
+#### 3.5.1 System Monitoring
+- Data feed status dashboard
+- Provider connection monitoring
+- Performance metrics
+- Error logging and tracking
+
+#### 3.5.2 Provider Management
+- View and update provider credentials
+- Test provider connections
+- Configure fallback behavior
+- Monitor provider performance
+
+## 4. Non-Functional Requirements
+
+### 4.1 Performance
+
+#### 4.1.1 Response Time
+- API response time: <200ms
+- WebSocket latency: <100ms
+- UI rendering: <100ms for updates
+- Database queries: <50ms
+
+#### 4.1.2 Scalability
+- Support for 1,000+ concurrent users
+- Efficient database connection pooling
+- Optimized WebSocket communication
+- Caching for frequently accessed data
+
+#### 4.1.3 Reliability
+- 99.9% uptime
+- Graceful degradation on provider failures
+- Automatic recovery from errors
+- Comprehensive error handling
+
+### 4.2 Security
+
+#### 4.2.1 Data Protection
+- Secure storage of API credentials
+- Encrypted communication
+- Input validation and sanitization
+- Protection against common web vulnerabilities
+
+#### 4.2.2 Rate Limiting
+- Provider API rate limit compliance
+- Protection against DoS attacks
+- Graceful handling of rate limit errors
+
+### 4.3 Usability
+
+#### 4.3.1 User Interface
+- Intuitive and clean design
+- Responsive layout for all devices
+- Consistent visual language
+- Accessibility compliance
+
+#### 4.3.2 User Experience
+- Fast and responsive interactions
+- Clear feedback for user actions
+- Helpful error messages
+- Tooltips and contextual help
+
+### 4.4 Compatibility
+
+#### 4.4.1 Browsers
+- Chrome (latest 2 versions)
+- Firefox (latest 2 versions)
+- Safari (latest 2 versions)
+- Edge (latest 2 versions)
+
+#### 4.4.2 Devices
+- Desktop computers
+- Tablets
+- Mobile phones (responsive design)
+
+### 4.5 Maintainability
+
+#### 4.5.1 Code Quality
+- Consistent coding standards
+- Comprehensive documentation
+- Modular architecture
+- Type safety with TypeScript
+
+#### 4.5.2 Deployment
+- Automated build process
+- Environment-specific configuration
+- Deployment scripts
+- Rollback capabilities
+
+## 5. Technical Requirements
+
+### 5.1 Frontend
+
+#### 5.1.1 Technologies
+- React 18+
+- TypeScript 5+
+- Tailwind CSS
+- Chart.js for data visualization
+- Socket.IO client for WebSocket
+- Lucide React for icons
+
+#### 5.1.2 Components
+- Dashboard layout
+- Option chain table
+- Pattern analysis panel
+- Chart components
+- Market summary cards
+- Setup wizard
+- Admin dashboard
+- Alert center
+
+### 5.2 Backend
+
+#### 5.2.1 Technologies
+- Node.js 18+
+- Express framework
+- Socket.IO for WebSocket
+- MySQL2 for database connectivity
+- Node-cron for scheduled tasks
+
+#### 5.2.2 Services
+- Market data service
+- Pattern detection service
+- WebSocket broadcast service
+- Database service
+- Provider integration service
+
+### 5.3 Database
+
+#### 5.3.1 Schema
+- Instruments table
+- Option data table
+- Market signals table
+- Service providers table
+- Provider profiles table
+
+#### 5.3.2 Performance
+- Proper indexing
+- Query optimization
+- Connection pooling
+- Caching strategies
+
+### 5.4 APIs and Integration
+
+#### 5.4.1 External APIs
+- Angel One API
+- NSE API
+- Yahoo Finance API
+
+#### 5.4.2 Internal APIs
+- RESTful endpoints
+- WebSocket events
+- Health and status endpoints
+
+## 6. Implementation Details
+
+### 6.1 Centralized Data Feed
+
+The centralized data feed is the core of the system, providing real-time market data to all users without requiring individual authentication:
+
+```javascript
+class CentralizedDataService {
+  // Pre-configured credentials
+  private adminCredentials = {
+    apiKey: 'P9ErUZG0',
+    clientId: 'R117172',
+    clientSecret: '7fcb7f2a-fd0a-4d12-a010-16d37fbdbd6e'
+  };
+  
+  // Provider management
+  private primaryProvider: MarketDataProvider;
+  private fallbackProviders: MarketDataProvider[] = [];
+  
+  // Data broadcasting
+  private subscribers: Map<string, Set<string>>;
+  private dataCache: Map<string, { data: any, timestamp: Date }>;
+  
+  // Methods
+  async initialize(): Promise<boolean>;
+  async start(): Promise<boolean>;
+  async stop(): Promise<void>;
+  async fetchAndBroadcastData(symbol: string): Promise<void>;
+  onDataBroadcast(callback: Function): Function;
+  getServiceStats(): object;
+}
+```
+
+### 6.2 Pattern Detection Algorithms
+
+The pattern detection system uses sophisticated algorithms to identify trading patterns:
+
+```javascript
+class PatternDetector {
+  // Thresholds for pattern detection
+  private static readonly THRESHOLDS = {
+    OI_CHANGE_THRESHOLD: 5000,
+    PREMIUM_CHANGE_THRESHOLD: 5,
+    VOLUME_THRESHOLD: 10000,
+    CONFIDENCE_HIGH: 0.8,
+    CONFIDENCE_MEDIUM: 0.6,
+    CONFIDENCE_LOW: 0.4
+  };
+  
+  // Methods
+  static analyzeOptionChain(data, underlying, price, context): PatternResult[];
+  static monitorPatterns(previousData, currentData, underlying, price): PatternResult[];
+  static validatePatterns(patterns): PatternResult[];
+  static scorePatterns(patterns): PatternResult[];
+  
+  // Helper methods
+  private static calculateMaxPain(data): number;
+  private static detectGammaSqueezePattern(data, underlying, price): PatternResult;
+  private static getContextMultiplier(marketContext): number;
+}
+```
+
+### 6.3 WebSocket Communication
+
+Real-time updates are delivered via WebSocket:
+
+```javascript
+// Server-side
+io.on('connection', (socket) => {
+  console.log(`Client connected: ${socket.id}`);
+  
+  // Send current market data
+  Object.keys(marketData).forEach(symbol => {
+    socket.emit('marketData', {
+      underlying: symbol,
+      options: marketData[symbol].options || [],
+      underlyingPrice: marketData[symbol].price,
+      ...marketData[symbol]
+    });
+  });
+  
+  // Send recent signals
+  marketSignals.slice(0, 10).forEach(signal => {
+    socket.emit('signal', signal);
+  });
+  
+  socket.on('disconnect', () => {
+    console.log(`Client disconnected: ${socket.id}`);
+  });
+});
+
+// Client-side
+useEffect(() => {
+  const socket = io('/');
+  
+  socket.on('connect', () => {
+    console.log('Connected to WebSocket server');
+    setIsConnected(true);
+  });
+  
+  socket.on('marketData', (data) => {
+    setMarketData(prev => ({
+      ...prev,
+      [data.underlying]: data.options
+    }));
+    
+    setPrices(prev => ({
+      ...prev,
+      [data.underlying]: data.underlyingPrice
+    }));
+    
+    setLastUpdate(new Date().toISOString());
+  });
+  
+  socket.on('signal', (signal) => {
+    setSignals(prev => [signal, ...prev.slice(0, 49)]);
+  });
+  
+  return () => {
+    socket.close();
+  };
+}, []);
+```
+
+## 7. Testing Requirements
+
+### 7.1 Unit Testing
+- Test pattern detection algorithms
+- Test data transformation functions
+- Test utility functions
+- Test React components
+
+### 7.2 Integration Testing
+- Test API endpoints
+- Test database operations
+- Test WebSocket communication
+- Test provider integrations
+
+### 7.3 End-to-End Testing
+- Test complete user flows
+- Test setup wizard
+- Test pattern detection in real-time
+- Test fallback mechanisms
+
+### 7.4 Performance Testing
+- Load testing with simulated users
+- Stress testing for peak loads
+- Endurance testing for stability
+- Database performance testing
+
+## 8. Deployment Requirements
+
+### 8.1 Development Environment
+- Local development with hot reload
+- SQLite fallback for database
+- Mock data provider for testing
+- Development-specific configuration
+
+### 8.2 Production Environment
+- Netlify for frontend hosting
+- Heroku/AWS for backend hosting
+- MySQL database (managed service)
+- Production-specific configuration
+- SSL certificates
+- Environment variable management
+
+## 9. Documentation Requirements
+
+### 9.1 Code Documentation
+- JSDoc comments for functions and classes
+- README files for components and modules
+- Architecture diagrams
+- API documentation
+
+### 9.2 User Documentation
+- Setup guide
+- User manual
+- Troubleshooting guide
+- FAQ
+
+## 10. Maintenance and Support
+
+### 10.1 Monitoring
+- Error logging and tracking
+- Performance monitoring
+- Database health checks
+- API status monitoring
+
+### 10.2 Updates and Maintenance
+- Regular dependency updates
+- Security patches
+- Feature enhancements
+- Bug fixes
+
+## 11. Glossary
+
+- **OI (Open Interest)**: The total number of outstanding derivative contracts that have not been settled.
+- **PCR (Put-Call Ratio)**: A ratio of the trading volume of put options to call options.
+- **ATM (At-the-Money)**: An option with a strike price that is identical or very close to the current market price of the underlying asset.
+- **ITM (In-the-Money)**: A call option with a strike price below the market price, or a put option with a strike price above the market price.
+- **OTM (Out-of-the-Money)**: A call option with a strike price above the market price, or a put option with a strike price below the market price.
+- **Long Buildup**: Increase in open interest along with an increase in price.
+- **Short Covering**: Decrease in open interest along with an increase in price.
+- **Gamma Squeeze**: A rapid rise in the price of a stock due to the purchase of call options.
+- **Max Pain**: The strike price at which option writers (sellers) would lose the least amount of money.

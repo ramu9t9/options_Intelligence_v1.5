@@ -1,0 +1,117 @@
+✅ Frontend Phase 5 (Themed): Admin Panel + System Metrics + Logs + Export
+🎯 Theme Integration Goals:
+Full viewport gradient background → bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900
+
+Admin cards styled with → bg-black/20 backdrop-blur-sm border border-white/10
+
+Graphs + metrics use blur layering + soft visuals
+
+Export tools + tabs designed for dark UI accessibility
+
+🧩 Key Components (Themed)
+1️⃣ ADMIN DASHBOARD – METRIC CARDS & CHARTS
+✅ Themed Replit Prompt:
+text
+Copy
+Edit
+Update AdminDashboard.tsx:
+
+- Page wrapper:
+  <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 p-6">
+
+- Summary cards (Total Users, Alerts Today, etc.):
+  <div className="bg-black/20 backdrop-blur-sm border border-white/10 rounded-xl p-4 text-white shadow-sm">
+
+- Use grid for layout:
+  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4
+
+- Sparkline charts (Recharts):
+  <div className="bg-black/10 rounded-md p-2 border border-white/10">
+✅ Result: High-level KPIs in a clean, blur-layered grid with spark charts
+
+2️⃣ USER ACTIVITY LOGS TABLE
+✅ Themed Replit Prompt:
+text
+Copy
+Edit
+Update UserActivityLog.tsx:
+
+- Table container:
+  <div className="bg-black/20 backdrop-blur-sm border border-white/10 rounded-xl p-4 overflow-x-auto">
+
+- Table style:
+  <table className="min-w-full text-sm text-white/90">
+    <thead className="bg-white/10">
+      <tr><th className="p-2">User</th> ...</tr>
+    </thead>
+    <tbody>
+      <tr className="even:bg-white/5 odd:bg-black/10">...</tr>
+    </tbody>
+
+- Filters + search:
+  Use translucent controls: bg-black/30 border-white/10 text-white
+✅ Result: Scrollable admin logs in themed table with soft borders
+
+3️⃣ SYSTEM METRICS PANEL (Redis, Broker API, BullMQ)
+✅ Themed Replit Prompt:
+text
+Copy
+Edit
+Update SystemMetricsPanel.tsx:
+
+- Metrics block:
+  <div className="bg-black/20 backdrop-blur-sm border border-white/10 rounded-lg p-4 mb-4 text-white">
+
+- Status badge:
+  Use pill:
+    <span className="px-2 py-1 bg-green-600/70 text-white rounded-full text-xs">
+      Healthy
+    </span>
+
+- Progress bar:
+  Base bar: bg-white/10
+  Fill bar: bg-purple-600 w-[75%] h-2 rounded-full transition-all
+✅ Result: Clean visual system status with subtle color-coded indicators
+
+4️⃣ EXPORT PANELS (CSV/JSON)
+✅ Themed Replit Prompt:
+text
+Copy
+Edit
+Create ExportButtons.tsx:
+
+- Export bar wrapper:
+  <div className="bg-black/20 backdrop-blur-sm border border-white/10 rounded-md p-3 flex gap-3 justify-end">
+
+- Buttons:
+  <button className="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-md text-sm font-medium">
+    Export CSV
+  </button>
+✅ Result: Export area styled to match admin cards, clean button hover behavior
+
+5️⃣ ROLE-BASED ACCESS UI (Admin Only)
+✅ Themed Replit Prompt:
+text
+Copy
+Edit
+Protect Admin Pages:
+
+- If not role === 'ADMIN', show:
+  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br ...">
+    <div className="bg-black/30 border border-white/10 text-white rounded-xl p-6 text-center">
+      <h2 className="text-xl font-bold mb-2">Access Denied</h2>
+      <p>You do not have permission to view this page.</p>
+    </div>
+  </div>
+
+- Sidebar nav:
+  Conditionally render "Admin" tab only for ADMIN users
+✅ Result: Branded error screen consistent with theme
+
+📂 Final Deliverables – Phase 5 (Themed)
+Component	Description
+✅ AdminDashboard.tsx	KPI cards and spark charts in glass layout
+✅ UserActivityLog.tsx	Styled logs with filters + scrollable table
+✅ SystemMetricsPanel.tsx	Status bars and badges inside blur cards
+✅ ExportButtons.tsx	Themed export CSV/JSON area
+✅ AccessControl.tsx	Admin-only views with branded denial screen

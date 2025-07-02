@@ -1,0 +1,70 @@
+# Prometheus configuration for Options Intelligence Platform
+# Monitoring and metrics collection setup
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Options Intelligence Platform application
+  - job_name: 'options-intelligence-app'
+    static_configs:
+      - targets: ['app:5000']
+    metrics_path: '/api/metrics'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+
+  # PostgreSQL database monitoring
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres:5432']
+    scrape_interval: 60s
+
+  # Redis monitoring
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis:6379']
+    scrape_interval: 30s
+
+  # Nginx monitoring
+  - job_name: 'nginx'
+    static_configs:
+      - targets: ['nginx:80']
+    metrics_path: '/nginx_status'
+    scrape_interval: 30s
+
+  # Node.js process metrics
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: ['app:5000']
+    metrics_path: '/api/node-metrics'
+    scrape_interval: 15s
+
+  # WebSocket connection metrics
+  - job_name: 'websocket-metrics'
+    static_configs:
+      - targets: ['app:5000']
+    metrics_path: '/api/websocket/stats'
+    scrape_interval: 15s
+
+  # Market data metrics
+  - job_name: 'market-data-metrics'
+    static_configs:
+      - targets: ['app:5000']
+    metrics_path: '/api/market-data/metrics'
+    scrape_interval: 10s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          # - alertmanager:9093

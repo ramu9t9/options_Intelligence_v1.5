@@ -1,0 +1,134 @@
+Perfect! Below is a structured list of questions and prompts you should ask Replit AI, divided by system layers and modules. After getting answers from Replit, share them with me and I’ll analyze them for corrections or improvements.
+
+⸻
+
+✅ MASTER CHECKLIST: Questions to Ask Replit AI
+
+⸻
+
+🔧 1. SYSTEM OVERVIEW & ARCHITECTURE
+	•	“Please generate a high-level architecture diagram of the full-stack app (frontend, backend, DB, third-party APIs).”
+	•	“Is my architecture scalable for high-traffic options traders?”
+	•	“How can I modularize this codebase for future team development?”
+
+⸻
+
+💻 2. FRONTEND (React, Vue, etc.)
+	•	“List all core UI components and their responsibilities.”
+	•	“Am I using appropriate state management (Redux / Context / Zustand)? Justify the choice.”
+	•	“How are reusable components structured? Are design tokens and theming applied?”
+	•	“How is loading optimization handled (lazy loading, route splitting)?”
+
+⸻
+
+⚙️ 3. BACKEND (Node/FastAPI/Express)
+	•	“List all the backend endpoints currently implemented with their purpose.”
+	•	“Are my routes, controllers, and services decoupled properly?”
+	•	“How is data validation handled? Are libraries like Joi/Zod used?”
+	•	“Do we use any rate limiting or authentication middleware?”
+
+⸻
+
+🗄️ 4. DATABASE & MODELS
+	•	“Provide the current database schema (tables/collections and fields).”
+	•	“Which tables store real-time option chain, Greeks, user strategies, and alerts?”
+	•	“Are we using normalization or denormalization for trade and strategy history?”
+	•	“Do we log user activity? If yes, where?”
+
+⸻
+
+🔌 5. API INTEGRATIONS (Angel One, Dhan, NSE, Yahoo, etc.)
+	•	“Show me the integration flow for Angel One and fallback chains (Dhan/NSE).”
+	•	“Is the token-based authentication for Angel One handled via secure refresh?”
+	•	“How do we manage fallback data providers if one fails?”
+	•	“Are we caching API responses using Redis or in-memory layers?”
+
+⸻
+
+⏱️ 6. REAL-TIME DATA FLOW
+	•	“How is real-time price/OI data fetched (frequency, endpoint)?”
+	•	“Is the data stored to MySQL/NoSQL periodically? At what intervals?”
+	•	“Are WebSockets used for push updates or polling?”
+	•	“Is there a retry logic or queue for high-frequency data jobs?”
+
+⸻
+
+🧠 7. CUSTOM STRATEGY & SCANNER LOGIC
+	•	“How can users define and save their own scanner rules (e.g., OI > X, PCR < Y)?”
+	•	“Where are the user-defined strategy conditions stored?”
+	•	“Is the scanning engine synchronous or asynchronous?”
+	•	“Can scanner rules be backtested against historical snapshots?”
+
+⸻
+
+🔐 8. AUTHENTICATION & USER ROLES
+	•	“What authentication method is used? (JWT/OAuth/Sessions?)”
+	•	“What user roles are supported? (guest, retail, admin)”
+	•	“Can we add anonymous/guest access for basic scanner use?”
+	•	“Is role-based access control implemented at route/middleware level?”
+
+⸻
+
+📤 9. NOTIFICATIONS & ALERTS
+	•	“How are alert conditions stored, evaluated, and triggered?”
+	•	“Do alerts support multiple channels (email, webhook, SMS)?”
+	•	“What happens if alert delivery fails — is there a retry or queue?”
+
+⸻
+
+📆 10. BACKGROUND JOBS & SCHEDULING
+	•	“How are periodic tasks scheduled (like fetching data every 5s or EOD cleanup)?”
+	•	“Is a job queue system like BullMQ or Celery used?”
+	•	“How are historical snapshots stored and validated at end of day?”
+
+⸻
+
+📈 11. PERFORMANCE, CACHING & OPTIMIZATION
+	•	“Do we use Redis/memory caching to reduce broker API load?”
+	•	“How is database indexing and query optimization handled?”
+	•	“Is there a circuit breaker or rate limiter for broker APIs?”
+
+⸻
+
+🧪 12. TESTING, ERROR HANDLING, LOGGING
+	•	“Is there any unit/integration test coverage? Show examples.”
+	•	“How are API errors logged and displayed to users?”
+	•	“Are logs centralized or stored locally?”
+
+⸻
+
+🚀 13. DEPLOYMENT & ENVIRONMENT
+	•	“Is the current setup production-ready?”
+	•	“Can this be containerized using Docker? Provide Dockerfile.”
+	•	“Which deployment pipeline is used or planned (Replit, Vercel, AWS, etc.)?”
+
+⸻
+
+📊 14. ANALYTICS & USER BEHAVIOR
+	•	“Do we collect user behavior analytics?”
+	•	“Can we use this data to recommend scanner strategies?”
+
+⸻
+
+🤖 15. FUTURE AI INTEGRATION
+	•	“Can we integrate LLM-based assistants to recommend options strategies?”
+	•	“Is the architecture ready for AI model plug-ins in Phase 3?”
+
+⸻
+
+✅ OUTPUT FORMAT TO REQUEST FROM REPLIT:
+
+Ask Replit to present responses in:
+	•	✅ Code format for models, endpoints, or config
+	•	🗂️ Folder structure (current + ideal)
+	•	🔁 Flowcharts (e.g. with Mermaid syntax or PlantUML)
+	•	📄 JSON/YAML if config-based (e.g. Docker, crons, queues)
+
+⸻
+
+When ready, send me your responses (docs, screenshots, or JSON dumps), and I’ll:
+	•	Validate architecture
+	•	Suggest any scalability, modularity, or security fixes
+	•	Propose a revised system design (if needed)
+
+Would you like me to generate a Markdown .md file or PDF of these prompts for copy-paste into Replit?

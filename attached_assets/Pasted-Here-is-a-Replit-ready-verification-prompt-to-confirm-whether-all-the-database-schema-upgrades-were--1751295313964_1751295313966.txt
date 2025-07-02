@@ -1,0 +1,83 @@
+Here is a Replit-ready verification prompt to confirm whether all the database schema upgrades were implemented correctly. You can copy and paste this directly into Replit AI:
+
+⸻
+
+✅ Replit AI Prompt: Verify Database Schema Implementation
+
+I want you to confirm and validate that all of the following PostgreSQL schema upgrades have been correctly applied to my options trading database. Please check each item and confirm explicitly that it is done, along with any missing parts or recommended improvements:
+
+---
+
+### ✅ 1. Composite Indexes
+
+Have the following indexes been created?
+
+```sql
+CREATE INDEX idx_realtime_symbol_ts ON realtime_data_snapshots(symbol, timestamp DESC);
+CREATE INDEX idx_oi_symbol_expiry_ts ON intraday_option_oi(symbol, expiry, timestamp DESC);
+CREATE INDEX idx_oi_strike_ts ON intraday_option_oi(symbol, strike, timestamp DESC);
+
+
+
+⸻
+
+✅ 2. Partitioning of Tables
+
+Have the following tables been partitioned by timestamp?
+	•	realtime_data_snapshots
+	•	intraday_option_oi
+
+Show the names of actual partitions created (e.g., realtime_data_snapshots_202506, etc.)
+
+⸻
+
+✅ 3. New Tables Created
+
+Please confirm these tables exist and include all required fields:
+	•	historical_minute_data
+	•	daily_option_oi_snapshots
+	•	strategy_backtest_results
+	•	strategy_scorecard
+
+List their column names and primary keys for validation.
+
+⸻
+
+✅ 4. TTL or Cleanup Job
+
+Is a cleanup job running that deletes data older than 48 hours from:
+	•	realtime_data_snapshots
+	•	intraday_option_oi
+
+Is it implemented using:
+	•	PostgreSQL pg_cron?
+	•	Or a backend job (e.g., Node, Python script)?
+
+Show the logic being used.
+
+⸻
+
+✅ 5. Query Optimization
+
+Has query performance improved?
+
+Run and share EXPLAIN ANALYZE result for this:
+
+SELECT * FROM realtime_data_snapshots
+WHERE symbol = 'NIFTY'
+AND timestamp > NOW() - INTERVAL '30 minutes';
+
+Does it use the idx_realtime_symbol_ts index?
+
+⸻
+
+Please respond with structured confirmation, including:
+	•	✅ Confirmed steps
+	•	⚠️ Missing or partially done items
+	•	🔧 Suggestions (if any)
+
+This will be reviewed by my architecture team to ensure we are both aligned.
+
+---
+
+Once you get a response from Replit, share it with me here — I’ll analyze whether anything is still missing or misconfigured before we move on to the next stage.

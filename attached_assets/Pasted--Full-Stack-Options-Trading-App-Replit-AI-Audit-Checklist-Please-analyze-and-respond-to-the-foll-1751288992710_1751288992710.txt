@@ -1,0 +1,126 @@
+✅ Full-Stack Options Trading App – Replit AI Audit Checklist
+
+Please analyze and respond to the following questions to help me validate or improve my system design.
+
+⸻
+
+🔧 1. SYSTEM ARCHITECTURE
+	•	Can you generate a high-level system architecture diagram of the entire full-stack app?
+	•	Is this architecture modular, scalable, and suitable for high traffic (like Sensibull)?
+	•	What are the critical improvement areas in the current architecture?
+	•	Suggest any missing layers (e.g., caching, message queues, service separation).
+
+⸻
+
+💻 2. FRONTEND (React or other)
+	•	List the main React components and their responsibilities.
+	•	Are we using an efficient state management solution (Redux, Zustand, Context API)?
+	•	Are components reusable and optimized (useMemo/useCallback/lazy loading)?
+	•	Is the frontend responsive and mobile-optimized?
+
+⸻
+
+⚙️ 3. BACKEND (Node.js / FastAPI / Express / etc.)
+	•	List all backend routes and their purposes.
+	•	Are the routes/controllers/services properly modularized?
+	•	Is the backend built using RESTful standards? Any GraphQL support?
+	•	How are data validations handled (e.g., Joi, Pydantic, Zod)?
+	•	Are there any middlewares for authentication, logging, or error handling?
+
+⸻
+
+🗄️ 4. DATABASE DESIGN
+	•	Provide the current database schema (tables/collections and fields).
+	•	Which tables store:
+	1.	Option chain data
+	2.	Real-time data snapshots
+	3.	User strategies
+	4.	Alerts and notifications
+	5.	Historical trades
+	•	Are indexes added to optimize performance?
+	•	Is data normalized or denormalized? Explain the rationale.
+
+⸻
+
+🔌 5. API INTEGRATIONS (Angel One, Dhan, NSE, etc.)
+	•	Explain the integration logic for each broker API (Angel One, Dhan, NSE fallback).
+	•	Is token management handled securely (refresh, expiry)?
+	•	Do we support failover in case the primary API is unavailable?
+	•	Are API responses cached (e.g., Redis/in-memory/local file)?
+	•	How are errors or disconnections from APIs handled?
+
+⸻
+
+⏱️ 6. REAL-TIME DATA MANAGEMENT
+	•	How frequently is live data fetched and processed?
+	•	Are we using polling, WebSockets, or server-sent events (SSE)?
+	•	Where is real-time data stored temporarily or permanently?
+	•	Is there a throttling or queue system to manage broker API rate limits?
+
+⸻
+
+🧠 7. STRATEGY BUILDER / CUSTOM SCANNERS
+	•	How can users define and save their own strategy/scanner rules?
+	•	Where and how are these rules stored (DB structure)?
+	•	Is the rule engine synchronous or asynchronous?
+	•	Can strategies be backtested with historical data snapshots?
+
+⸻
+
+🔐 8. AUTHENTICATION & ROLES
+	•	What auth system is being used? (JWT, OAuth, Sessions, etc.)
+	•	Are user roles implemented (guest, retail, admin)?
+	•	Can guest users access limited features without logging in?
+	•	How is role-based access enforced in routes/components?
+
+⸻
+
+📤 9. NOTIFICATIONS & ALERTING
+	•	How are user alerts defined, stored, and triggered?
+	•	Do alerts support multiple channels (Email, Webhook, SMS)?
+	•	How often are alert conditions evaluated (e.g., every 10s)?
+	•	Is there a retry or queue system for failed alerts?
+
+⸻
+
+📆 10. BACKGROUND JOBS & TASK SCHEDULING
+	•	Are we using cron jobs, Node schedulers, or Celery/RQ workers?
+	•	How are snapshot jobs (EOD, 5s, 15min) scheduled and stored?
+	•	Do long-running jobs run in background workers or main server?
+
+⸻
+
+📈 11. PERFORMANCE & SCALABILITY
+	•	Are API responses or computed Greeks cached in memory or Redis?
+	•	Is there load balancing or horizontal scaling potential?
+	•	How is broker API rate limiting handled?
+	•	What’s the database optimization strategy for large datasets?
+
+⸻
+
+🧪 12. TESTING, ERROR HANDLING, LOGGING
+	•	Are there any automated tests (unit, integration, end-to-end)?
+	•	How are backend and frontend errors logged and handled?
+	•	Do we log external API failures or rate limit breaches?
+
+⸻
+
+🚀 13. DEPLOYMENT & ENVIRONMENT
+	•	Is the current setup suitable for production (or just Replit testing)?
+	•	Can the full app be containerized? Please provide a sample Dockerfile.
+	•	Are .env configs safely managed and injected?
+	•	Suggest best practice for future deployment (Vercel, AWS, Fly.io, etc.).
+
+⸻
+
+📊 14. USER ANALYTICS & USAGE TRACKING
+	•	Are we collecting analytics like most-used strategies or scan patterns?
+	•	Can we track user behavior for product improvement?
+	•	Where is user activity stored?
+
+⸻
+
+🤖 15. FUTURE AI INTEGRATION POTENTIAL
+	•	Can we later integrate AI models to generate or recommend trading strategies?
+	•	Suggest architecture changes to allow AI-driven insights (Phase 3+).
+	•	Can we collect training data from user strategy usage logs?

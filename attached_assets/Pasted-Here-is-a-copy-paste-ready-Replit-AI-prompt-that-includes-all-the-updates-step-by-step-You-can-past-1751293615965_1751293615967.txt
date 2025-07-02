@@ -1,0 +1,134 @@
+Here is a copy-paste-ready Replit AI prompt that includes all the updates step-by-step. You can paste this directly into Replit AI or any dev assistant to bring your database schema up to full production-level readiness.
+
+⸻
+
+✅ Replit AI Prompt: Upgrade and Optimize PostgreSQL Schema for Options Trading Platform
+
+I want to update my existing PostgreSQL schema for a Sensibull-style options trading platform. Apply the following changes step-by-step:
+
+---
+
+🔧 STEP 1: Add Composite Indexes to Speed Up Real-Time Queries
+
+Please add the following indexes:
+
+```sql
+CREATE INDEX idx_realtime_symbol_ts ON realtime_data_snapshots(symbol, timestamp DESC);
+CREATE INDEX idx_oi_symbol_expiry_ts ON intraday_option_oi(symbol, expiry, timestamp DESC);
+CREATE INDEX idx_oi_strike_ts ON intraday_option_oi(symbol, strike, timestamp DESC);
+
+
+
+⸻
+
+🧊 STEP 2: Partition Realtime Tables by Date
+
+Update realtime_data_snapshots and intraday_option_oi to use native PostgreSQL partitioning by timestamp:
+
+-- Parent Table
+CREATE TABLE realtime_data_snapshots (
+  id UUID,
+  symbol TEXT,
+  timestamp TIMESTAMP,
+  ltp NUMERIC,
+  data_json JSONB
+) PARTITION BY RANGE (timestamp);
+
+-- Example Partition
+CREATE TABLE realtime_data_snapshots_202506 PARTITION OF realtime_data_snapshots
+FOR VALUES FROM ('2025-06-01') TO ('2025-07-01');
+
+Repeat this for intraday_option_oi using similar partitioning logic.
+
+⸻
+
+📊 STEP 3: Add New Table for Minute-Level Historical Data
+
+Create this new table to support granular backtesting:
+
+CREATE TABLE historical_minute_data (
+  id SERIAL PRIMARY KEY,
+  symbol TEXT NOT NULL,
+  timestamp TIMESTAMP NOT NULL,
+  open_price DECIMAL(10,2),
+  high_price DECIMAL(10,2),
+  low_price DECIMAL(10,2),
+  close_price DECIMAL(10,2),
+  volume INTEGER,
+  UNIQUE(symbol, timestamp)
+);
+
+
+
+⸻
+
+📅 STEP 4: Add Daily OI Snapshot Table
+
+This helps with end-of-day OI trend analysis:
+
+CREATE TABLE daily_option_oi_snapshots (
+  trading_date DATE NOT NULL,
+  symbol TEXT NOT NULL,
+  expiry DATE NOT NULL,
+  strike DECIMAL(10,2) NOT NULL,
+  ce_oi INTEGER,
+  pe_oi INTEGER,
+  ce_volume INTEGER,
+  pe_volume INTEGER,
+  PRIMARY KEY(trading_date, symbol, expiry, strike)
+);
+
+
+
+⸻
+
+🧠 STEP 5: Add Tables for Backtest Results and Strategy Scoring
+
+These will support AI-based strategy ranking and audit logs:
+
+CREATE TABLE strategy_backtest_results (
+  strategy_id UUID,
+  run_time TIMESTAMP,
+  match_rate FLOAT,
+  roi_estimate FLOAT,
+  data_coverage TEXT,
+  PRIMARY KEY(strategy_id, run_time)
+);
+
+CREATE TABLE strategy_scorecard (
+  strategy_id UUID PRIMARY KEY,
+  last_run_time TIMESTAMP,
+  win_rate FLOAT,
+  avg_return FLOAT,
+  suggestion_score FLOAT
+);
+
+
+
+⸻
+
+♻️ STEP 6: Add TTL Cleanup Job (Dev Mode)
+
+Schedule or simulate a cronjob to delete real-time data older than 48 hours:
+
+DELETE FROM realtime_data_snapshots
+WHERE timestamp < NOW() - INTERVAL '48 hours';
+
+DELETE FROM intraday_option_oi
+WHERE timestamp < NOW() - INTERVAL '48 hours';
+
+(Optional: implement with pg_cron or backend job runner.)
+
+⸻
+
+Please generate SQL scripts, constraints, and examples for each step. Ensure backward compatibility with existing strategy, alert, and user tables.
+
+---
+
+Let me know when you're done applying this or if you’d like:
+
+- A consolidated `.sql` script  
+- Docker-ready PostgreSQL init seed  
+- Testing queries for each table  
+
+I’m here to help with implementation next.

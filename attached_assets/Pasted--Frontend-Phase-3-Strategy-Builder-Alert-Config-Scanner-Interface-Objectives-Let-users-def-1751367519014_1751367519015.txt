@@ -1,0 +1,168 @@
+✅ Frontend Phase 3: Strategy Builder + Alert Config + Scanner Interface
+🔧 Objectives:
+Let users define rule-based strategies visually
+
+Create alert configuration cards
+
+Build reusable components for scanning options data
+
+Prepare UI for backend APIs from Phase 3 backend
+
+🧩 Key UI Components:
+Visual Rule Builder
+
+Saved Strategy List + Edit Modal
+
+Alert Configuration UI
+
+Strategy Tester (Evaluate button)
+
+Scanner Dashboard (Multi-strike evaluation)
+
+1️⃣ VISUAL STRATEGY RULE BUILDER
+🔍 What to Do:
+Allow users to define conditions like:
+
+“OI > 10,00,000 AND PCR < 0.7”
+
+Each rule is a card with:
+
+Field selector (e.g., OI, PCR, Price)
+
+Operator selector (> < =)
+
+Input value
+
+Delete button
+
+🧠 Replit Prompt:
+text
+Copy
+Edit
+Create StrategyRuleBuilder.tsx:
+- Renders multiple rule cards
+- Each card has:
+  - Field Dropdown: OI, PCR, IV, Price
+  - Operator Dropdown: >, <, ==
+  - Value Input: numeric
+  - Remove Button (trash icon)
+- Add button: “+ Add Condition”
+
+Store rules in local state:
+  const [rules, setRules] = useState<StrategyRule[]>([])
+
+Output JSON like:
+  [
+    { field: "OI", operator: ">", value: 1000000 },
+    { field: "PCR", operator: "<", value: 0.7 }
+  ]
+✅ Result: Fully dynamic visual rule creation
+
+2️⃣ STRATEGY LIST + EDIT MODAL
+🔍 What to Do:
+List user strategies as cards (or rows)
+
+Include:
+
+Strategy name
+
+Last modified
+
+[Edit], [Run], [Delete] buttons
+
+🧠 Replit Prompt:
+text
+Copy
+Edit
+Create StrategyList.tsx:
+- Pull strategy list from backend API: /api/strategy/list
+- Display in card view or table:
+  - Name | Rules count | Last run | Status
+
+Add Modal:
+- When “Edit” is clicked, load StrategyRuleBuilder with existing rules
+- Support “Save” and “Test Strategy” buttons inside modal
+✅ Result: Strategy management UI with CRUD flow
+
+3️⃣ ALERT CONFIGURATION UI
+🔍 What to Do:
+Let users add alerts to a strategy
+
+Channel selection: in-app, email, webhook
+
+Priority selector: HIGH, MEDIUM, LOW
+
+🧠 Replit Prompt:
+text
+Copy
+Edit
+Create AlertConfig.tsx:
+- UI for:
+  - Alert Type: Price, OI, PCR, Pattern
+  - Target Value
+  - Channels: checkbox group (email, in-app, webhook)
+  - Priority: dropdown (HIGH, MEDIUM, LOW)
+
+Embed in StrategyBuilder page after rules
+Save alert config alongside strategy rules
+✅ Result: Alerts embedded in strategy creation flow
+
+4️⃣ STRATEGY TESTING (Evaluate on Live Data)
+🔍 What to Do:
+Button: “Evaluate Now”
+
+Sends rule JSON to backend and gets response: ✅ Match or ❌ No Match
+
+Show match count and highlight rows (CE/PE) that triggered
+
+🧠 Replit Prompt:
+text
+Copy
+Edit
+Create EvaluateStrategy.tsx:
+- Button “Test Strategy” on Builder screen
+- On click, POST to `/api/strategy/evaluate` with rule JSON
+- Backend returns:
+  - match: true/false
+  - triggeredSymbols: [...strike/expiry combos]
+
+Render:
+  - Success/Fail status
+  - Table of triggered matches (strike, reason matched)
+✅ Result: Users get immediate feedback on strategy viability
+
+5️⃣ SCANNER DASHBOARD
+🔍 What to Do:
+Summary view that shows:
+
+Active strategies
+
+Their real-time evaluation
+
+Next alert ETA
+
+Card-style layout with blinking matches
+
+🧠 Replit Prompt:
+text
+Copy
+Edit
+Create ScannerDashboard.tsx:
+- Card per strategy:
+  - Strategy Name
+  - Status: ACTIVE / IDLE / MATCHED
+  - Last Evaluated: 11:32:01
+  - Next Evaluation: 11:32:11
+  - Matches: 3 strikes triggered
+
+Add refresh interval (every 10s) using `useEffect`
+Visual: blinking green bar or notification bell for MATCHED
+✅ Result: Traders can track all strategies at a glance
+
+📂 Final Deliverables for Frontend Phase 3
+Component	Description
+✅ StrategyRuleBuilder.tsx	Visual rule creation with condition cards
+✅ StrategyList.tsx	Strategy overview, edit/delete UI
+✅ AlertConfig.tsx	Alert channel + priority config
+✅ EvaluateStrategy.tsx	One-click rule tester
+✅ ScannerDashboard.tsx	Overview of all active strategies

@@ -1,0 +1,321 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light Mode - Professional Trading Theme */
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 210 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+    
+    /* Trading-specific colors */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 0%;
+    --info: 199 89% 48%;
+    --info-foreground: 0 0% 100%;
+    
+    /* Chart colors for trading */
+    --chart-1: 142 76% 36%; /* Green for bullish */
+    --chart-2: 0 84% 60%;   /* Red for bearish */
+    --chart-3: 38 92% 50%;  /* Orange for neutral */
+    --chart-4: 199 89% 48%; /* Blue for info */
+    --chart-5: 262 83% 58%; /* Purple for special */
+    
+    /* Sidebar colors */
+    --sidebar-background: 220 13% 18%;
+    --sidebar-foreground: 220 9% 46%;
+    --sidebar-primary: 210 100% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 15% 25%;
+    --sidebar-accent-foreground: 220 9% 46%;
+    --sidebar-border: 220 13% 18%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark Blue Gradient Theme with Purple Accents */
+    --background: 224 71% 4%;
+    --foreground: 210 40% 98%;
+    --card: 224 47% 9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 224 47% 9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 262 83% 58%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 220 14% 11%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 215 14% 14%;
+    --muted-foreground: 217 10% 64%;
+    --accent: 262 83% 58%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 215 14% 14%;
+    --input: 215 14% 14%;
+    --ring: 262 83% 58%;
+    
+    /* Trading-specific colors - Dark Blue Theme */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 0%;
+    --info: 199 89% 48%;
+    --info-foreground: 0 0% 100%;
+    
+    /* Chart colors for trading - Purple Accent Theme */
+    --chart-1: 142 76% 36%; /* Green for bullish */
+    --chart-2: 0 84% 60%;   /* Red for bearish */
+    --chart-3: 38 92% 50%;  /* Orange for neutral */
+    --chart-4: 217 91% 60%; /* Blue for info */
+    --chart-5: 262 83% 58%; /* Purple for special */
+    
+    /* Sidebar colors - Deep Blue Theme */
+    --sidebar-background: 224 71% 4%;
+    --sidebar-foreground: 215 20% 65%;
+    --sidebar-primary: 262 83% 58%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 220 14% 11%;
+    --sidebar-accent-foreground: 215 20% 65%;
+    --sidebar-border: 215 14% 14%;
+    --sidebar-ring: 262 83% 58%;
+  }
+  
+  /* Global gradient background for all pages */
+  body.dark {
+    background: linear-gradient(135deg, 
+      hsl(220, 40%, 8%) 0%,     /* Deep navy blue */
+      hsl(230, 45%, 12%) 25%,   /* Slightly lighter navy */
+      hsl(240, 50%, 16%) 50%,   /* Dark blue-purple */
+      hsl(250, 40%, 14%) 75%,   /* Purple-blue */
+      hsl(260, 35%, 10%) 100%   /* Deep purple */
+    );
+    min-height: 100vh;
+  }
+  
+  /* Apply gradient to main containers */
+  .dark .min-h-screen {
+    background: linear-gradient(135deg, 
+      hsl(220, 40%, 8%) 0%,     /* Deep navy blue */
+      hsl(230, 45%, 12%) 25%,   /* Slightly lighter navy */
+      hsl(240, 50%, 16%) 50%,   /* Dark blue-purple */
+      hsl(250, 40%, 14%) 75%,   /* Purple-blue */
+      hsl(260, 35%, 10%) 100%   /* Deep purple */
+    );
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  
+  .dark body {
+    background: linear-gradient(135deg, #0f0f23 0%, #1e1b4b 25%, #3730a3 50%, #6366f1 75%, #8b5cf6 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+}
+
+/* Professional Trading Platform Enhancements */
+@layer components {
+  .trading-card {
+    @apply bg-card border border-border rounded-lg shadow-sm backdrop-blur-sm;
+    @apply dark:bg-card/80 dark:border-border/50;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .trading-card:hover {
+    @apply shadow-md scale-[1.01];
+    @apply dark:shadow-lg dark:border-purple-500/30 dark:bg-card/90;
+  }
+
+  .pattern-card {
+    @apply trading-card;
+    background: linear-gradient(135deg, rgba(15, 15, 35, 0.9) 0%, rgba(30, 27, 75, 0.8) 50%, rgba(55, 48, 163, 0.7) 100%);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+  }
+
+  .pattern-card:hover {
+    border: 1px solid rgba(139, 92, 246, 0.5);
+    box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2);
+  }
+
+  .bullish {
+    @apply text-green-600 dark:text-green-400;
+  }
+
+  .bearish {
+    @apply text-red-600 dark:text-red-400;
+  }
+
+  .neutral {
+    @apply text-orange-600 dark:text-orange-400;
+  }
+
+  .info-color {
+    @apply text-blue-600 dark:text-blue-400;
+  }
+
+  .trading-button {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90;
+    @apply px-4 py-2 rounded-md font-medium transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+
+  .trading-input {
+    @apply bg-background border border-input rounded-md px-3 py-2;
+    @apply focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+    @apply placeholder:text-muted-foreground;
+  }
+
+  .sidebar-item {
+    @apply flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium;
+    @apply transition-colors duration-200 cursor-pointer;
+    @apply hover:bg-accent hover:text-accent-foreground;
+  }
+
+  /* Sidebar gradient background */
+  .dark .sidebar-container {
+    background: linear-gradient(180deg, 
+      rgba(15, 15, 35, 0.95) 0%,     /* Deep navy blue with transparency */
+      rgba(30, 27, 75, 0.9) 25%,    /* Slightly lighter navy */
+      rgba(55, 48, 163, 0.85) 50%,  /* Dark blue-purple */
+      rgba(99, 102, 241, 0.8) 75%,  /* Purple-blue */
+      rgba(139, 92, 246, 0.75) 100% /* Deep purple */
+    );
+    backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(139, 92, 246, 0.2);
+  }
+
+  .sidebar-item.active {
+    @apply bg-primary text-primary-foreground;
+  }
+
+  .glass-panel {
+    @apply bg-background/95 backdrop-blur-sm border border-border/50;
+    @apply dark:bg-background/90 dark:border-border/30;
+  }
+
+  .status-indicator {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .status-connected {
+    @apply bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400;
+  }
+
+  .status-disconnected {
+    @apply bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400;
+  }
+
+  .status-warning {
+    @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400;
+  }
+
+  .market-summary-card {
+    @apply trading-card p-4 space-y-2;
+  }
+
+  .price-display {
+    @apply text-lg font-bold tabular-nums;
+  }
+
+  .price-change {
+    @apply text-sm font-medium tabular-nums;
+  }
+
+  .option-chain-row {
+    @apply grid grid-cols-12 gap-2 py-2 px-4 hover:bg-muted/50 transition-colors;
+    @apply border-b border-border/30 last:border-b-0;
+  }
+
+  .option-chain-header {
+    @apply grid grid-cols-12 gap-2 py-3 px-4 bg-muted/30 font-semibold text-sm;
+    @apply border-b border-border sticky top-0 z-10;
+  }
+}
+
+/* Trading-specific gradients and animations */
+@layer utilities {
+  .gradient-bullish {
+    @apply bg-gradient-to-r from-green-500 to-green-600;
+  }
+
+  .gradient-bearish {
+    @apply bg-gradient-to-r from-red-500 to-red-600;
+  }
+
+  .gradient-primary {
+    @apply bg-gradient-to-r from-blue-500 to-blue-600;
+  }
+
+  .gradient-purple {
+    background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+  }
+
+  .gradient-blue-purple {
+    background: linear-gradient(135deg, #3730a3 0%, #6366f1 50%, #8b5cf6 100%);
+  }
+
+  .glass-morphism {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .dark .glass-morphism {
+    background: rgba(15, 15, 35, 0.8);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+  }
+
+  .pattern-glow {
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .trading-shadow {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+
+  .trading-shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+
+  .dark .trading-shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(139, 92, 246, 0.3), 0 4px 6px -2px rgba(139, 92, 246, 0.1);
+  }
+
+  .text-gradient-purple {
+    background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}

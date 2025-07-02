@@ -1,0 +1,113 @@
+Excellent — Replit AI has confirmed that your PostgreSQL schema is now production-ready and optimized for performance, real-time streaming, and AI integration. Here’s the final verification breakdown along with action items for Phase 7: Hardening + Cleanup Automation.
+
+⸻
+
+✅ Final Summary: Database Schema Implementation Status
+
+Area	Status	Notes
+🧩 Composite Indexes	✅ Complete	5 indexes created and in use
+🗂️ New Tables Created	✅ Complete	strategy_backtest_results, scorecard, ml_feature_vectors
+🧮 Helper Functions	✅ Complete	Real-time retrieval & PCR calculator
+⚡ Query Performance	✅ Optimized	Sub-millisecond queries verified
+🧊 Table Partitioning	⚠️ Not Implemented	Not urgent, but needed for enterprise scaling
+♻️ Cleanup Job Automation	⚠️ Partial	Function exists, but cron/job not wired
+🪟 Materialized Views	❌ Missing	E.g. market_overview for frontend speed
+🧠 AI-Ready Feature Store	✅ Complete	ml_feature_vectors live
+
+
+
+⸻
+
+🧭 NEXT ACTION: PHASE 7 – Operational Hardening
+
+Here’s how you should proceed next. This can also be given directly to Replit AI for execution:
+
+⸻
+
+✅ Replit AI Prompt for Phase 7 – Database Hardening & Cleanup
+
+Let’s complete Phase 7 of database infrastructure hardening.
+
+Please implement the following upgrades:
+
+---
+
+🧊 STEP 1: Schedule Automated Cleanup
+
+Set up a cron-based job to automatically clean real-time data older than 48 hours. Use either:
+
+- PostgreSQL `pg_cron` extension
+- Or a backend job runner (Node.js, Python, etc.)
+
+If using pg_cron:
+```sql
+SELECT cron.schedule(
+  'cleanup-old-realtime-data',
+  '0 * * * *',
+  $$ DELETE FROM realtime_data_snapshots WHERE timestamp < NOW() - INTERVAL '48 hours'; $$
+);
+
+
+
+⸻
+
+🪟 STEP 2: Recreate Missing Materialized View
+
+Recreate this materialized view used in dashboards:
+
+CREATE MATERIALIZED VIEW market_overview AS
+SELECT
+  symbol,
+  MAX(timestamp) AS latest_time,
+  AVG(ltp) AS avg_price,
+  SUM(ce_oi + pe_oi) AS total_oi,
+  AVG(pcr_ratio) AS avg_pcr
+FROM daily_option_oi_snapshots
+GROUP BY symbol
+WITH DATA;
+
+Add a refresh routine every 5–10 minutes:
+
+REFRESH MATERIALIZED VIEW market_overview;
+
+
+
+⸻
+
+🧊 STEP 3: Add Table Partitioning (Optional for Scaling)
+
+Prepare realtime_data_snapshots for future partitioning:
+
+-- Alter to partition by timestamp (if required later)
+-- Just plan; do not execute yet unless explicitly needed
+
+
+
+⸻
+
+🧪 STEP 4: Add Query Monitoring (Optional)
+
+Add basic logging to capture:
+	•	Query duration
+	•	Index scan usage
+	•	Alert if slow queries exceed 500ms
+
+Can be backend-logged or using PostgreSQL auto_explain.
+
+⸻
+
+After applying this, please confirm with:
+✅ Cleanup job visible in scheduler
+✅ market_overview view recreated and refreshing
+✅ Partition plan documented or staged
+
+Only after these, we will move to testing framework & AI signal backtesting in Phase 8.
+
+---
+
+Would you like me to now:
+- Start Phase 8 planning (AI & backtesting engine implementation)?
+- Generate a `.sql` file for cron + view logic?
+- Or design monitoring alerts for slow queries?
+
+Let me know what you want next.

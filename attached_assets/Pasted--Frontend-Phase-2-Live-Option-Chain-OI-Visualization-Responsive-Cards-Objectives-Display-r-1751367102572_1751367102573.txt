@@ -1,0 +1,137 @@
+✅ Frontend Phase 2: Live Option Chain + OI Visualization + Responsive Cards
+🔧 Objectives:
+Display real-time Option Chain in a clean, scrollable table
+
+Show Open Interest (OI) visualizations using mini-bars and color indicators
+
+Design for mobile responsiveness and speed
+
+🧩 Key UI Components to Build:
+Option Chain Table with CE/PE Columns
+
+OI Visualization (Bar + Δ OI)
+
+Strike Filters + Expiry Dropdown
+
+Responsive Design (Mobile + Desktop)
+
+Skeleton Loaders + Refresh Button
+
+1️⃣ OPTION CHAIN TABLE UI
+🔍 What to Do:
+Create a table that displays:
+
+Strike
+
+CE LTP, CE OI, CE OI Δ
+
+PE LTP, PE OI, PE OI Δ
+
+🧠 Replit Prompt:
+text
+Copy
+Edit
+Create Option Chain Table:
+- File: `components/OptionChainTable.tsx`
+- Use shadcn `<Table>` or custom layout
+- Columns:
+  | CE LTP | CE OI | CE OI Δ | STRIKE | PE OI Δ | PE OI | PE LTP |
+- Color code:
+  - Green for positive OI Δ
+  - Red for negative OI Δ
+- Show current LTP in bold
+
+Use dummy data first:
+  const optionData = [
+    { strike: 18000, ceLtp: 40.5, ceOi: 120000, ceDeltaOi: 5000, peLtp: 90.2, peOi: 140000, peDeltaOi: -3000 }
+  ]
+✅ Result: Beautiful, scrollable table with CE & PE mirrored across center strike
+
+2️⃣ OI VISUALIZATION
+🔍 What to Do:
+For each OI value, show a horizontal bar indicator
+
+Relative width based on max OI in visible rows
+
+Green/red color tint for Δ OI (change)
+
+🧠 Replit Prompt:
+text
+Copy
+Edit
+Add OI bars to each OI cell:
+- Create `OiBar.tsx` component
+- Props: value, delta, maxValue
+- Render bar using `div` with width = (value / maxValue * 100)%
+- Add color: green/red for positive/negative delta
+
+Use it in OptionChainTable for CE OI and PE OI
+✅ Result: Trader-friendly OI visual insights at a glance
+
+3️⃣ EXPIRY + STRIKE FILTERS
+🔍 What to Do:
+Add dropdown to choose expiry
+
+Add range selector or buttons for ATM +/- 5 strikes
+
+🧠 Replit Prompt:
+text
+Copy
+Edit
+Create filters above Option Chain:
+- `ExpiryDropdown.tsx`: uses dropdown from shadcn/ui
+- Strike range buttons:
+  - ATM Only
+  - ATM ± 5
+  - All Strikes
+
+Store filter values in local state or context
+Recalculate table rows based on selected range
+✅ Result: Dynamic filtering of displayed strikes
+
+4️⃣ RESPONSIVE DESIGN & MOBILE UX
+🔍 What to Do:
+Stack CE/PE data on mobile
+
+Use horizontal scrolling (overflow-x)
+
+Add sticky headers for top nav
+
+🧠 Replit Prompt:
+text
+Copy
+Edit
+Make OptionChainTable responsive:
+- On mobile:
+  - Collapse table into stacked cards per strike
+  - Use `flex-col` for CE and PE
+  - Use `overflow-x-auto` on parent
+- Keep filters accessible as fixed top bar
+✅ Result: Works flawlessly on desktop and mobile
+
+5️⃣ SKELETON LOADERS + REFRESH BUTTON
+🔍 What to Do:
+Show skeleton shimmer rows while loading
+
+Add “Refresh” button with last updated time
+
+🧠 Replit Prompt:
+text
+Copy
+Edit
+Add loading UX:
+- Create `OptionChainSkeleton.tsx` with 8 shimmer rows
+- Show while data is loading
+- Add refresh button at top-right of table:
+  "⟳ Last Updated: 11:30:15 AM"
+
+Use `useMarketData()` hook or TanStack Query to refresh data
+✅ Result: Smooth user experience, fast feedback loop
+
+📂 Final Deliverables for Frontend Phase 2
+Component	Description
+✅ OptionChainTable.tsx	Real-time CE/PE data table
+✅ OiBar.tsx	Visual OI bar + delta
+✅ ExpiryDropdown.tsx	Expiry selector with ATM strike filtering
+✅ Responsive Layout	Mobile/tablet-friendly scrollable layout
+✅ Skeleton + Refresh	Dynamic loading + UI polish

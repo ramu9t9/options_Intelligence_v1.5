@@ -1,0 +1,157 @@
+✅ Let’s Start with Frontend Phase 1: UI Foundation & Design System
+🔧 Objectives:
+Set up reusable design system
+
+Create global layout, responsive structure
+
+Integrate a modern UI component library
+
+🧩 Key Tasks:
+Choose UI Framework (shadcn/ui, Tailwind, or Chakra UI)
+
+Set up Global Layout (Header, Sidebar, Footer)
+
+Create Theme (Colors, Fonts, Shadows)
+
+Add Route & Page Scaffolding
+
+Implement Navigation (Tab or Sidebar-based)
+
+1️⃣ UI FRAMEWORK SETUP
+🔍 What to Do:
+Use shadcn/ui + Tailwind CSS for fast, elegant modern design
+
+Install Tailwind, configure themes, and setup dark/light toggle
+
+🧠 Replit Prompt:
+text
+Copy
+Edit
+Set up Tailwind CSS with shadcn/ui:
+- Install Tailwind: npm install -D tailwindcss postcss autoprefixer
+- Create config files: npx tailwindcss init -p
+- Configure theme in tailwind.config.js
+- Install shadcn/ui with:
+  npx shadcn-ui@latest init
+
+- Add to src/index.css:
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+✅ Result: Tailwind + shadcn installed and working
+
+2️⃣ GLOBAL LAYOUT (Header + Sidebar + Footer)
+🔍 What to Do:
+Create a reusable Layout.tsx component
+
+Includes:
+
+Top navbar with logo, user avatar, dark mode toggle
+
+Sidebar with links: Option Chain, Strategy Builder, Reports, Admin
+
+🧠 Replit Prompt:
+text
+Copy
+Edit
+Create Layout.tsx:
+- Header: App title, profile dropdown, dark/light toggle
+- Sidebar:
+  - Option Chain
+  - Strategy Builder
+  - AI Assistant
+  - Reports
+  - Admin (visible only for admins)
+- Content outlet: render current route inside main area
+
+Use shadcn components: Sheet, Dropdown, Toggle
+✅ Result: Consistent layout across all pages
+
+3️⃣ THEME & DESIGN SYSTEM
+🔍 What to Do:
+Create a centralized design theme (colors, fonts, spacing)
+
+Configure Tailwind with custom tokens
+
+🧠 Replit Prompt:
+text
+Copy
+Edit
+Customize Tailwind theme:
+- Edit tailwind.config.js:
+  theme.extend.colors = {
+    primary: '#0052cc',
+    secondary: '#ff5630',
+    background: '#f9fafb',
+    border: '#d0d7de'
+  }
+
+Set fontFamily:
+  fontFamily: {
+    sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+  }
+
+Apply base styles to body and html
+✅ Result: Visual consistency, professional-grade theme
+
+4️⃣ ROUTING & PAGE STRUCTURE
+🔍 What to Do:
+Set up client-side routing using React Router
+
+Create page shells:
+
+/option-chain
+
+/strategy-builder
+
+/reports
+
+/ai-assistant
+
+/admin
+
+🧠 Replit Prompt:
+text
+Copy
+Edit
+Install React Router:
+  npm install react-router-dom
+
+Set up routes:
+- Create AppRoutes.tsx:
+  <Route path="/option-chain" element={<OptionChainPage />} />
+  <Route path="/strategy-builder" element={<StrategyBuilderPage />} />
+  ...
+
+Add <Routes /> to App.tsx inside Layout
+
+Create placeholder pages in src/pages/
+✅ Result: Navigation + blank page shells created and wired
+
+5️⃣ NAVIGATION UX
+🔍 What to Do:
+Add responsive navigation:
+
+Sidebar expands/collapses
+
+Tabbed menu on mobile
+
+🧠 Replit Prompt:
+text
+Copy
+Edit
+Enhance layout with responsive navigation:
+- Sidebar collapses on small screens
+- Use Sheet component for mobile drawer
+- Highlight active route with dynamic styling
+
+Show user avatar and profile menu in header
+✅ Result: Fully responsive layout with modern navigation feel
+
+📂 Final Deliverables for Frontend Phase 1
+Feature	Description
+✅ UI Framework	Tailwind + shadcn + Theme tokens
+✅ Layout	Reusable Layout.tsx with sidebar/header
+✅ Routing	React Router setup with page shells
+✅ Design System	Fonts, colors, spacing config
+✅ Navigation	Responsive nav with tab/drawer UX
